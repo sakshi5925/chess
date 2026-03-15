@@ -1,62 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .chessboard{
+        .chessboard {
             display: grid;
-            grid-template-columns: repeat(8,minmax(0,1fr));
-            grid-template-rows: repeat(8,minmax(0,1fr));
-            width:400px;
-            height:400px;
-            transform: rotate(0deg);
+            grid-template-columns: repeat(8, 1fr);
+            grid-template-rows: repeat(8, 1fr);
+            width: 640px;
+            height: 640px;
         }
-        .piece.white{
+
+        .square.light {
+            background: #f0d9b5;
+        }
+
+        .square.dark {
+            background: #b58863;
+        }
+
+        .square {
+            transition: background 0.2s;
+        }
+
+        .piece.white {
             color: white;
-            filter: drop-shadow(0 0 2px rgba(0,0,0,1)); 
+            filter: drop-shadow(0 0 2px rgba(0, 0, 0, 1));
         }
-        .piece.black{
+
+        .piece.black {
             color: black !important;
         }
-        .flipped{
+
+        .flipped {
             transform: rotate(180deg);
         }
-        .square{
+
+        .square {
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        .square.light{
+
+        .square.light {
             background-color: #f0d9b5;
         }
-        .square.dark{
+
+        .square.dark {
             background-color: #b58863;
         }
-        .piece{
+
+        .piece {
             font-size: 36px;
             cursor: pointer;
+            transition: transform 0.2s ease;
         }
-        .piece.draggable{
+
+        .piece.draggable {
             cursor: grab;
         }
-        .dragging{
+
+        .dragging {
             opacity: 0.5;
         }
-        .flipped .piece{
+
+        .flipped .piece {
             transform: rotate(180deg);
+        }
+
+        .piece-img {
+            width: 70px;
+            height: 70px;
+            pointer-events: none;
+        }
+
+        .highlight {
+            background: rgba(255, 255, 0, 0.5);
+        }
+
+        .lastMove {
+            background: rgba(0, 255, 0, 0.4);
+        }
+
+        .square:hover {
+            filter: brightness(1.1);
+        }
+
+        .check {
+            background: red !important;
+        }
+
+        .piece {
+            transition: transform 0.2s ease, filter 0.2s ease;
+        }
+
+        .piece:hover {
+            filter: brightness(1.2);
         }
     </style>
 </head>
-<body>
-  
-    <div class="w-full h-screen bg-zinc-900 flex items-center justify-center">
-        <div class=" chessboard w-96 h-96 bg-red-800"></div>
+
+<body class="bg-zinc-900 flex items-center justify-center h-screen">
+
+
+
+    <div class="flex flex-col items-center gap-4">
+
+        <h2 id="gameStatus" class="text-green-400 text-xl font-bold"></h2>
+
+        <div class="chessboard border-8 border-gray-700 shadow-xl"></div>
+
+        <p id="playerInfo" class="text-white"></p>
+
+        <button id="restartBtn" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+            Restart Game
+        </button>
+
     </div>
-    <script src="https://cdn.socket.io/4.8.1/socket.io.min.js" integrity="sha384-mkQ3/7FUtcGyoppY6bz/PORYoGqOl7/aSUMn2ymDOJcapfS6PHqxhRTMh1RR0Q6+" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js" integrity="sha512-xRllwz2gdZciIB+AkEbeq+gVhX8VB8XsfqeFbUh+SzHlN96dEduwtTuVuc2u9EROlmW9+yhRlxjif66ORpsgVA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"
+        integrity="sha384-mkQ3/7FUtcGyoppY6bz/PORYoGqOl7/aSUMn2ymDOJcapfS6PHqxhRTMh1RR0Q6+"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"
+        integrity="sha512-xRllwz2gdZciIB+AkEbeq+gVhX8VB8XsfqeFbUh+SzHlN96dEduwtTuVuc2u9EROlmW9+yhRlxjif66ORpsgVA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="/js/chessgame.js"></script>
 </body>
+
 </html>
